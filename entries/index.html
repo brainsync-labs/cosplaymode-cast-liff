@@ -21,6 +21,7 @@
 
   <footer class="foot">
     <span id="version"></span>
+    <a href="../profile/">CASTプロフィール</a>
     <a href="../faq/">FAQ</a>
     <a href="../contact/">お問い合わせ</a>
   </footer>
@@ -29,60 +30,6 @@
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script src="../assets/config.js"></script>
 <script src="../assets/app.js"></script>
-<script>
-/**
- * 応募・進行中（v8 §5 / §10）。
- *
- * 大事なのは「応募なし」と断定しないこと。
- * Googleフォームの回答が取り込まれるまでは、反映待ちであることを案内する。
- * linked 以外の応募（needs_review / unmatched / duplicate / invalid_token）は
- * 別人の画面へ出さないため、そもそもここへは返ってこない。
- */
-(function () {
-  'use strict';
-
-  document.addEventListener('DOMContentLoaded', function () {
-    var app = window.CMC.el('app');
-    var errBox = window.CMC.el('error');
-
-    function show(html) {
-      app.innerHTML = '<h1>応募・進行中</h1>' + html;
-      app.hidden = false;
-    }
-
-    window.CMC.boot(function () {
-      return window.CMC.post('profile.get', {})
-        .then(function (data) {
-          if (data.profileStatus !== 'complete') {
-            var label = data.profileStatus === 'draft'
-              ? '登録の続きへ進む'
-              : 'CASTプロフィールを登録する';
-            show(
-              '<div class="empty">' +
-                '<strong>プロフィール登録後に、応募した案件を確認できます</strong>' +
-                '<p>先にCASTプロフィールのご登録をお願いします。登録は初回の1回のみです。</p>' +
-                '<a class="btn btn-primary" href="../profile/">' + window.CMC.esc(label) + '</a>' +
-              '</div>'
-            );
-            return;
-          }
-
-          // Phase A（9月4日）の時点では応募データの取り込みが始まっていない。
-          // ここで「応募なし」と表示しないことが v8 §5 の要件。
-          show(
-            '<div class="notice">応募情報は順次こちらへ反映します。' +
-            'Googleフォームからの応募後、反映まで数分かかる場合があります。</div>' +
-            '<div class="panel">' +
-              '<h3>いまはまだ応募受付前です</h3>' +
-              '<p>案件の募集はLINEのメッセージでご案内します。' +
-              '応募後は、この画面で受付状況をご確認いただけます。</p>' +
-            '</div>'
-          );
-        })
-        .catch(function (e) { window.CMC.showError(errBox, e); });
-    });
-  });
-})();
-</script>
+<script src="../assets/entries.js"></script>
 </body>
 </html>

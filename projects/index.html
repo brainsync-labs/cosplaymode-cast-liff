@@ -9,25 +9,27 @@
 </head>
 <body>
 <div class="wrap">
-<main>
-<h1>募集中の案件</h1>
-<div class="notice">案件の募集は<strong>LINEのメッセージでご案内します</strong>。<br>
-メニューを見に来ていただかなくても、募集開始時にこちらからお知らせします。</div>
-<div class="panel">
-<h3>いま募集中の案件はありません</h3>
-<p>新しい募集が始まりましたら、公式LINEのメッセージでご案内します。<br>
-先にCASTプロフィールのご登録をお願いします。登録済みの方へ優先的にご案内します。</p>
+
+  <div id="loading" class="loading">
+    <div class="skeleton" style="width:55%"></div>
+    <div class="skeleton" style="width:80%"></div>
+    読み込んでいます…
+  </div>
+
+  <div id="error" hidden></div>
+  <main id="app" hidden></main>
+
+  <footer class="foot">
+    <span id="version"></span>
+    <a href="../profile/">CASTプロフィール</a>
+    <a href="../faq/">FAQ</a>
+    <a href="../contact/">お問い合わせ</a>
+  </footer>
 </div>
-<div class="actions">
-<a class="btn btn-primary" href="../profile/">CASTプロフィールを登録・確認する</a>
-</div>
-</main>
-<footer class="foot">
-<span id="version"></span>
-<a href="../profile/">CASTプロフィール</a>
-</footer>
-</div>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script src="../assets/config.js"></script>
 <script src="../assets/app.js"></script>
+<script src="../assets/projects.js"></script>
 </body>
 </html>
