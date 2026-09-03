@@ -1,0 +1,10 @@
+.DS_Store
+# 秘密情報は一切置かない。誤コミット防止のため拡張子ごと遮断する
+*.env
+.env*
+*secret*
+*credential*
+*service-account*
+*.pem
+*.key
+*.p12
