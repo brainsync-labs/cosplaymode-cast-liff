@@ -141,7 +141,9 @@
   function stepsBar(current) {
     return '<ol class="steps">' + STEPS.map(function (s) {
       var cls = s.no === current ? 'on' : (s.no < current ? 'done' : '');
-      return '<li class="' + cls + '">STEP' + s.no + '<br>' + esc(s.title) + '</li>';
+      return '<li class="' + cls + '">' +
+        '<span class="no">' + s.no + '</span>' +
+        '<span class="t">' + esc(s.title) + '</span></li>';
     }).join('') + '</ol>';
   }
 
