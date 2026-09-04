@@ -10,7 +10,7 @@
  */
 window.CMC_CONFIG = {
   // LINE Developers > LIFF で発行される ID（公開情報）
-  liffId: '__LIFF_ID__',
+  liffId: '2011428122-Stw0lwML',
 
   // GAS ウェブアプリの /exec URL（公開情報）
   apiUrl: '__GAS_API_URL__',
