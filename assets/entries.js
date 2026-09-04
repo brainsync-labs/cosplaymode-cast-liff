@@ -19,7 +19,7 @@
     return '<article class="panel">' +
       '<h3>' + esc(e.projectName) + '</h3>' +
       '<div class="summary"><dl>' +
-        '<dt>状態</dt><dd>' + esc(e.statusLabel) + '</dd>' +
+        '<dt>状態</dt><dd><span class="pill on">' + esc(e.statusLabel) + '</span></dd>' +
         '<dt>応募日</dt><dd>' + esc(formatDate(e.submittedAt)) + '</dd>' +
       '</dl></div>' +
       '</article>';

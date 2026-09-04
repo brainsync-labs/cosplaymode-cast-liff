@@ -24,7 +24,7 @@
       '</dl></div>' +
       '<div class="actions">' +
         (canApply
-          ? '<button type="button" class="btn btn-primary js-apply" data-id="' + esc(p.projectId) + '">この案件に応募する<span class="btn-sub">ENTRY — フォームへ</span></button>'
+          ? '<button type="button" class="btn btn-primary js-apply" data-id="' + esc(p.projectId) + '">この案件に応募する<span class="chev"></span></button>'
           : '<a class="btn btn-primary" href="../profile/">先にCASTプロフィールを登録する</a>') +
       '</div>' +
       '</article>';
@@ -81,7 +81,7 @@
         if (typeof liff !== 'undefined' && liff.openWindow) {
           liff.openWindow({ url: data.formUrl, external: true });
           btn.disabled = false;
-          btn.textContent = 'この案件に応募する';
+          btn.innerHTML = 'この案件に応募する<span class="chev"></span>';
           showAfterOpen(projectId);
         } else {
           window.location.href = data.formUrl;
@@ -89,7 +89,7 @@
       })
       .catch(function (e) {
         btn.disabled = false;
-        btn.textContent = 'この案件に応募する';
+        btn.innerHTML = 'この案件に応募する<span class="chev"></span>';
 
         // 二重応募・締切済みは、原因が分かる文言で伝える
         if (e && e.errorCode === 'ENT-002') {
