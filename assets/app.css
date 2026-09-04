@@ -27,20 +27,20 @@
 /* ===== 1. トークン ===== */
 
 :root {
-  /* 面 */
-  --bg: #faf7f9;          /* ページ地。カードを白で立たせるためわずかに色を入れる */
+  /* 面。色味は入れない。白のカードとの明度差だけで層をつくる */
+  --bg: #f5f5f7;          /* ページ地 */
   --surface: #ffffff;     /* カード */
-  --surface-2: #f6f2f4;   /* 答えの面・押下・骨組み表示 */
+  --surface-2: #f0f0f3;   /* 答えの面・押下・骨組み表示 */
   --field-bg: #ffffff;    /* 入力欄 */
 
   /* 文字 */
-  --text: #171319;
-  --text-sub: #5c5462;
-  --text-mute: #8c8492;
+  --text: #1a1a1f;
+  --text-sub: #5b5b66;
+  --text-mute: #8a8a94;
 
   /* 罫 */
-  --line: #ebe4e8;
-  --line-strong: #d6ccd2;
+  --line: #e6e6ea;
+  --line-strong: #d1d1d8;
 
   /* ブランド */
   --accent: #b31e4b;
@@ -68,17 +68,17 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #121016;
-    --surface: #1c1922;
-    --surface-2: #24202c;
-    --field-bg: #221e2a;
+    --bg: #111114;
+    --surface: #1b1b20;
+    --surface-2: #24242a;
+    --field-bg: #212127;
 
-    --text: #ece8ef;
-    --text-sub: #b9b1c1;
-    --text-mute: #8b8397;
+    --text: #ececf0;
+    --text-sub: #b5b5c0;
+    --text-mute: #888892;
 
-    --line: #302b39;
-    --line-strong: #46404f;
+    --line: #2e2e35;
+    --line-strong: #44444d;
 
     --accent: #ff6f95;
     --accent-ink: #290914;
