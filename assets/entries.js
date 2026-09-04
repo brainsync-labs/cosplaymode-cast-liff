@@ -36,7 +36,7 @@
   }
 
   function render(data) {
-    var head = '<h1>応募・進行中</h1>';
+    var head = '<div class="sec sec-lead"><p class="sec-en">ENTRIES</p><h2>応募・進行中</h2></div>';
 
     // 1. プロフィール未完了
     if (data.profileStatus !== 'complete') {

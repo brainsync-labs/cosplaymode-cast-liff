@@ -177,7 +177,7 @@
     var resumed = state && state.profileStatus === 'draft' && no > 1;
 
     app.innerHTML =
-      '<h1>CASTプロフィールの登録</h1>' +
+      '<div class="sec sec-lead"><p class="sec-en">ENTRY</p><h2>CASTプロフィールの登録</h2></div>' +
       '<p class="lead">登録は初回の1回のみです。登録後はLINEからいつでも確認・変更できます。</p>' +
       (resumed ? '<div class="notice">前回の続きから再開します。入力済みの内容は保存されています。</div>' : '') +
       stepsBar(no) +
@@ -310,7 +310,7 @@
       (justSaved
         ? '<div class="notice done"><strong>CASTプロフィールを登録しました。</strong><br>今後はLINEからいつでも確認・変更できます。</div>'
         : '') +
-      '<h1>登録情報の確認・変更</h1>' +
+      '<div class="sec sec-lead"><p class="sec-en">PROFILE</p><h2>登録情報の確認・変更</h2></div>' +
       '<p class="lead">CAST ID：' + esc(p.castId || state.castId || '') + '</p>' +
 
       '<h2>基本情報</h2><div class="summary"><dl>' +
@@ -357,7 +357,7 @@
     var isMinor = state && state.profile && state.profile.isMinor;
 
     app.innerHTML =
-      '<h1>登録内容の変更</h1>' +
+      '<div class="sec sec-lead"><p class="sec-en">EDIT</p><h2>登録内容の変更</h2></div>' +
       '<p class="lead">変更したい項目だけ書き換えて保存してください。触っていない項目はそのまま残ります。</p>' +
       '<h2>基本情報・活動条件・SNS</h2>' +
       all.map(fieldHtml).join('') +

@@ -24,7 +24,7 @@
       '</dl></div>' +
       '<div class="actions">' +
         (canApply
-          ? '<button type="button" class="btn btn-primary js-apply" data-id="' + esc(p.projectId) + '">この案件に応募する</button>'
+          ? '<button type="button" class="btn btn-primary js-apply" data-id="' + esc(p.projectId) + '">この案件に応募する<span class="btn-sub">ENTRY — フォームへ</span></button>'
           : '<a class="btn btn-primary" href="../profile/">先にCASTプロフィールを登録する</a>') +
       '</div>' +
       '</article>';
@@ -34,7 +34,7 @@
     var canApply = data.profileStatus === 'complete';
     var list = data.projects || [];
 
-    var head = '<h1>募集中の案件</h1>';
+    var head = '<div class="sec sec-lead"><p class="sec-en">PROJECTS</p><h2>募集中の案件</h2></div>';
 
     if (list.length === 0) {
       app.innerHTML = head +

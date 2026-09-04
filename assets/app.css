@@ -1,108 +1,97 @@
 /* COSPLAY MODE CAST — LIFF 共通スタイル
-   モバイルファースト。LINEアプリ内ブラウザで読む前提。
-   外部フォント・外部CSSは読み込まない（LINE内での表示を速くするため）。
 
-   考えかた
-   - 影とグラデーションで区切らない。余白・角丸・1pxの罫で区切る
-   - 装飾の線を足さない。見出しは小さな太字ラベルだけで済ませる
-   - 色は下のトークンだけを使う。個別の色を直接書かない
+   ブランドの芯は募集LP（cast.cosplaymode.net）から
+   - 赤 #e60028・黒 #101010・英字大文字の節ラベル・角ばった押しボタン
+   画面としての作りは Weverse から
+   - 土台は色を持たない。余白で区切る。面だけ丸める。文字の太さで階層を作る
+
+   守ること
+   - 赤は「押せるもの」と「必須」にだけ使う。飾りに使わない
+   - 黒地の上で赤い文字を使わない。コントラストが 3.4:1 しかなく、
+     細い字だと境界が滲んで読みづらい。黒地で赤を出すときは面（座布団）にする
+   - 入力欄の文字は 16px を下回らせない。iOS が勝手にズームする
 
    目次
-     1. トークン
-     2. 土台
-     3. 見出しと文章
-     4. ブランド表示
-     5. 一覧（メニュー）
-     6. 進捗
-     7. 入力
-     8. ボタン
-     9. 箱（カード・注意書き・エラー）
-    10. 明細
-    11. 質問と答え
-    12. 空・読み込み中
-    13. フッター
-    14. 出現
+     1. トークン        8. ボタン
+     2. 土台            9. 箱
+     3. ブランド表示   10. 明細
+     4. 節の見出し     11. 質問と答え
+     5. 一覧           12. 空・読み込み中
+     6. 進捗           13. フッター
+     7. 入力           14. 出現
 */
 
-/* ===== 1. トークン ===== */
-
 :root {
-  /* 面。色味は入れない。白のカードとの明度差だけで層をつくる */
-  --bg: #f9f9fb;          /* ページ地。白に寄せる */
-  --surface: #ffffff;     /* カード */
-  --surface-2: #f1f1f4;   /* 答えの面・押下・骨組み表示 */
-  --field-bg: #ffffff;    /* 入力欄 */
+  /* 紙 */
+  --paper: #ffffff;
+  --paper-2: #f5f4f1;   /* LP の地色。答えの面・押下 */
+  --paper-3: #efedea;
 
-  /* 文字 */
-  --text: #1a1a1f;
-  --text-sub: #5b5b66;
-  --text-mute: #8a8a94;
+  /* 墨 */
+  --ink: #101010;
+  --ink-sub: #6e6e6e;
+  --ink-mute: #9a9a9a;
 
   /* 罫 */
-  --line: #e6e6ea;
-  --line-strong: #d1d1d8;
+  --line: #e7e5e1;
+  --line-strong: #d3d0ca;
 
   /* ブランド */
-  --accent: #b31e4b;
-  --accent-ink: #ffffff;
-  --accent-soft: #fdeef3;
-  --accent-line: #f2d2dd;
+  --red: #e60028;
+  --red-ink: #ffffff;
+  --red-soft: #fdecef;
+  --red-line: #f7ccd4;
 
   /* 状態 */
-  --ok: #126c4d;
-  --ok-soft: #eaf4ef;
-  --ok-line: #c6e2d5;
-  --err: #b8241d;
-  --err-soft: #fdecea;
-  --err-line: #f3c9c5;
+  --ok: #0d7a4f;
+  --ok-soft: #ebf5f0;
+  --ok-line: #c3e2d3;
+  --err: #c8102e;
+  --err-soft: #fdecee;
+  --err-line: #f7ccd2;
 
-  /* かたち */
-  --r-lg: 12px;   /* カード・一覧 */
-  --r-md: 10px;   /* ボタン・入力欄・注意書き */
-  --r-sm: 6px;
-  --r-pill: 999px;
+  /* かたち。押せるものは角ばらせ、面だけ丸める */
+  --r-box: 14px;
+  --r-hit: 3px;
 
-  --font: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", system-ui, sans-serif;
+  --font: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", system-ui, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #111114;
-    --surface: #1b1b20;
-    --surface-2: #24242a;
-    --field-bg: #212127;
+    --paper: #0e0e10;
+    --paper-2: #1a1a1d;
+    --paper-3: #232327;
 
-    --text: #ececf0;
-    --text-sub: #b5b5c0;
-    --text-mute: #888892;
+    --ink: #f2f2f3;
+    --ink-sub: #a8a8ad;
+    --ink-mute: #7c7c83;
 
-    --line: #2e2e35;
-    --line-strong: #44444d;
+    --line: #2a2a2e;
+    --line-strong: #3d3d43;
 
-    --accent: #ff6f95;
-    --accent-ink: #290914;
-    --accent-soft: #2e131c;
-    --accent-line: #48202e;
+    --red: #ff3d5e;
+    --red-ink: #1a0206;
+    --red-soft: #2b0d13;
+    --red-line: #45151f;
 
-    --ok: #58c99b;
-    --ok-soft: #10251c;
-    --ok-line: #234a38;
-    --err: #ff8a7f;
-    --err-soft: #2e1513;
-    --err-line: #55251f;
+    --ok: #4fc48c;
+    --ok-soft: #0f2318;
+    --ok-line: #204534;
+    --err: #ff7a6d;
+    --err-soft: #2b1310;
+    --err-line: #4d211c;
   }
 }
-
-/* ===== 2. 土台 ===== */
 
 * { box-sizing: border-box; }
 
 html, body {
   margin: 0;
   padding: 0;
-  background: var(--bg);
-  color: var(--text);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font);
   font-size: 16px;      /* iOS のフォーカス時ズームを防ぐため 16px を下回らせない */
   line-height: 1.75;
@@ -113,171 +102,165 @@ html, body {
 .wrap {
   max-width: 560px;
   margin: 0 auto;
-  padding: 20px 16px calc(56px + env(safe-area-inset-bottom));
+  padding: 16px 16px calc(56px + env(safe-area-inset-bottom));
 }
 
-a {
-  color: var(--accent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
-}
+a { color: var(--red); text-underline-offset: 2px; }
 
-/* 一覧・アコーディオンで使う山括弧。細く大きく描く */
 .chev {
   flex: none;
-  width: 8px;
-  height: 8px;
-  border-top: 1.4px solid var(--line-strong);
-  border-right: 1.4px solid var(--line-strong);
+  width: 7px;
+  height: 7px;
+  border-top: 1.4px solid var(--ink-mute);
+  border-right: 1.4px solid var(--ink-mute);
   transform: rotate(45deg);
 }
 
 [hidden] { display: none !important; }
 
-/* ===== 3. 見出しと文章 ===== */
+/* ---- 上部のブランド帯 ---- */
 
-h1 {
-  font-size: 20px;
-  line-height: 1.45;
-  margin: 0 0 8px;
-}
-
-/* 装飾の線は引かない。箱の外に置くラベルとして扱う */
-h2 {
-  font-size: 14px;
-  line-height: 1.6;
-  margin: 30px 0 10px;
-  padding: 0;
-}
-
-h3 {
-  font-size: 14px;
-  line-height: 1.6;
-  margin: 0 0 6px;
-}
-
-.lead {
-  color: var(--text-sub);
-  font-size: 13px;
-  line-height: 1.8;
-  margin: 0 0 20px;
-}
-
-/* 見出しの直後に置かれる箱には間隔をつくる */
-h1 + .panel,
-h1 + .notice,
-h1 + .empty,
-h1 + .summary,
-.lead + .panel,
-.lead + .empty { margin-top: 16px; }
-
-/* ===== 4. ブランド表示 ===== */
-
-/* 入口以外のページの上端。押すと入口へ戻る */
 .topbar {
   position: sticky;
   top: 0;
   z-index: 10;
   padding: calc(env(safe-area-inset-top) + 3px) 16px 3px;
-  background: var(--bg);   /* color-mix 未対応のブラウザ向け。透明にはしない */
-  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
 }
-
 .topbar-inner {
   max-width: 560px;
   margin: 0 auto;
-  min-height: 42px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 .wordmark {
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--text);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--ink);
   text-decoration: none;
   white-space: nowrap;
 }
-.wordmark em {
-  font-style: normal;
-  color: var(--accent);
+.wordmark em { font-style: normal; color: var(--red); }
+
+/* ---- 入口の黒カード（LPの黒帯 × Weverseの大きな面） ---- */
+
+/* 入口の黒カード。ここは明暗どちらでも黒のままなので、
+   トークンではなく実際の色を直接書く。
+   赤は文字に使わず、CAST の座布団としてだけ出す（黒地に赤文字は滲む）。 */
+.hero {
+  background: #101010;
+  /* 暗い配色のときページ地と同化するので、常に薄い縁を持たせる。
+     明るい配色では黒に沈んで見えない */
+  border: 1px solid #232326;
+  border-radius: var(--r-box);
+  padding: 24px 20px 22px;
+  margin: 0 0 26px;
 }
-
-/* 入口ページの名乗り */
-.hero { margin: 4px 0 24px; }
-
-.eyebrow {
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: var(--accent);
-  margin: 0 0 8px;
+.hero-en {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: #8d8884;
+  margin: 0 0 12px;
 }
-
 .hero h1 {
-  font-size: 23px;
-  line-height: 1.3;
-  letter-spacing: 0.04em;
+  font-size: 25px;
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: #ffffff;
   margin: 0 0 14px;
 }
-.hero h1 span {
-  display: block;
-  color: var(--accent);
+.hero h1 .l1 { display: block; }
+.hero h1 .tag {
+  display: inline-block;
+  margin-top: 7px;
+  padding: 1px 11px 3px;
+  border-radius: 2px;
+  background: #e60028;   /* 白抜きの座布団。白 on この赤で 4.6:1 */
+  color: #ffffff;
+}
+.hero-sub {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #a9a5a1;
+  margin: 0;
 }
 
-.hero .lead { margin-bottom: 0; }
+/* ---- 節の見出し（英字ラベル＋日本語） ---- */
 
-/* ===== 5. 一覧（メニュー） ===== */
+.sec { margin: 28px 0 10px; }
+.sec:first-child { margin-top: 0; }
+.sec-en {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--red);
+  margin: 0 0 3px;
+}
+.sec h2 {
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0;
+}
+/* ページの題。節ラベルと同じ作りのまま、大きさだけ上げる */
+.sec-lead { margin-top: 0; }
+.sec-lead h2 { font-size: 19px; line-height: 1.4; }
+
+h1 { font-size: 20px; font-weight: 800; line-height: 1.4; margin: 0 0 8px; }
+h2 { font-size: 15px; font-weight: 800; line-height: 1.5; margin: 28px 0 10px; }
+h3 { font-size: 14px; font-weight: 800; line-height: 1.5; margin: 0 0 6px; }
+
+.lead {
+  color: var(--ink-sub);
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 0 0 18px;
+}
+
+/* ---- 一覧 ---- */
 
 .menu {
   list-style: none;
   margin: 0;
   padding: 0;
-  background: var(--surface);
+  background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-box);
   overflow: hidden;
 }
 .menu li + li { border-top: 1px solid var(--line); }
-
 .menu a {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 46px;   /* 指の当たり判定は行全体で確保する */
-  padding: 7px 14px;
-  color: var(--text);
+  min-height: 46px;
+  padding: 8px 14px;
+  color: var(--ink);
   text-decoration: none;
 }
-.menu a:active { background: var(--surface-2); }
-
-.menu .ico {
-  flex: none;
-  width: 20px;
-  height: 20px;
-  color: var(--text-mute);
-}
-
-.menu .m-title {
-  flex: 1;
-  font-size: 13.5px;
-  font-weight: 700;
-  line-height: 1.4;
-}
+.menu a:active { background: var(--paper-2); }
+.menu .ico { flex: none; width: 20px; height: 20px; color: var(--ink-mute); }
+.menu .m-title { flex: 1; font-size: 14px; font-weight: 700; line-height: 1.45; }
 .menu .m-desc {
   display: block;
   font-size: 11px;
   font-weight: 400;
-  color: var(--text-mute);
-  line-height: 1.4;
+  color: var(--ink-mute);
+  line-height: 1.45;
 }
 
-/* ===== 6. 進捗 ===== */
+/* ---- 進捗 ----
+   丸に数字・済みはチェック。LPの 01/02/03 より、
+   「いまどこか・あと何段か」が一目で分かるのでこちらを採る。 */
 
 .steps {
   display: flex;
@@ -291,7 +274,7 @@ h1 + .summary,
   text-align: center;
   font-size: 11px;
   line-height: 1.5;
-  color: var(--text-mute);
+  color: var(--ink-mute);
 }
 /* ひとつ前の段とつなぐ線（自分の中心から左隣の中心まで） */
 .steps li::before {
@@ -312,21 +295,21 @@ h1 + .summary,
   width: 28px;
   height: 28px;
   margin: 0 auto 6px;
-  border-radius: var(--r-pill);
-  background: var(--bg);
+  border-radius: 999px;
+  background: var(--paper);
   border: 1.5px solid var(--line-strong);
-  color: var(--text-mute);
+  color: var(--ink-mute);
   font-size: 12px;
   font-weight: 700;
   line-height: 25px;
 }
 .steps .t { display: block; }
 
-.steps li.on { color: var(--accent); font-weight: 700; }
+.steps li.on { color: var(--red); font-weight: 700; }
 .steps li.on .no {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-ink);
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--red-ink);
 }
 .steps li.done { color: var(--ok); }
 .steps li.done .no {
@@ -334,7 +317,6 @@ h1 + .summary,
   border-color: var(--ok);
   font-size: 0;
 }
-/* 済みの段はチェックにする */
 .steps li.done .no::after {
   content: "";
   position: absolute;
@@ -350,123 +332,86 @@ h1 + .summary,
 .steps li.done::before,
 .steps li.on::before { background: var(--ok); }
 
-/* ===== 7. 入力 ===== */
+/* ---- 入力 ---- */
 
-.field { margin: 0 0 20px; }
-
+.field { margin: 0 0 18px; }
 .field > label,
-.field > .label {
-  display: block;
-  font-size: 12.5px;   /* 見出し（14px）と混ざらないよう一段下げる */
-  font-weight: 700;
-  margin-bottom: 6px;
-}
+.field > .label { display: block; font-size: 12.5px; font-weight: 700; margin-bottom: 6px; }
 
-.req,
-.opt {
+.req, .opt {
   display: inline-block;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  border-radius: 4px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  border-radius: 2px;
   padding: 0 5px;
   margin-left: 6px;
-  line-height: 17px;
+  line-height: 16px;
   vertical-align: 2px;
 }
-.req {
-  color: var(--accent);
-  background: var(--accent-soft);
-}
-.opt {
-  color: var(--text-mute);
-  background: var(--surface-2);
-  font-weight: 400;
-}
+.req { color: var(--red-ink); background: var(--red); }
+.opt { color: var(--ink-mute); background: var(--paper-2); font-weight: 400; }
 
-.hint {
-  font-size: 11.5px;
-  line-height: 1.7;
-  color: var(--text-mute);
-  margin: 5px 0 0;
-}
+.hint { font-size: 11.5px; line-height: 1.7; color: var(--ink-mute); margin: 5px 0 0; }
 
-input[type="text"],
-input[type="email"],
-input[type="date"],
-input[type="number"],
-select,
-textarea {
+input[type="text"], input[type="email"], input[type="date"], input[type="number"],
+select, textarea {
   width: 100%;
   font: inherit;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--text);
-  background: var(--field-bg);
+  color: var(--ink);
+  background: var(--paper);
   border: 1px solid var(--line-strong);
-  border-radius: var(--r-md);
-  padding: 13px 14px;
+  border-radius: var(--r-hit);
+  padding: 12px 13px;
   appearance: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-textarea { min-height: 104px; resize: vertical; }
-
-/* セレクトの下向き山括弧 */
+textarea { min-height: 100px; resize: vertical; }
 select {
   padding-right: 38px;
   background-image:
-    linear-gradient(45deg, transparent 50%, var(--text-sub) 50%),
-    linear-gradient(135deg, var(--text-sub) 50%, transparent 50%);
+    linear-gradient(45deg, transparent 50%, var(--ink-sub) 50%),
+    linear-gradient(135deg, var(--ink-sub) 50%, transparent 50%);
   background-position: right 18px center, right 13px center;
   background-size: 5px 5px, 5px 5px;
   background-repeat: no-repeat;
 }
-
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
+input:focus, select:focus, textarea:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px var(--red-soft);
   outline: none;
 }
-
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible,
-button:focus-visible,
-a:focus-visible,
-summary:focus-visible {
-  outline: 2px solid var(--accent);
+input:focus-visible, select:focus-visible, textarea:focus-visible,
+button:focus-visible, a:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--red);
   outline-offset: 2px;
 }
 
 .suffix { display: flex; align-items: center; gap: 8px; }
 .suffix input { flex: 1; }
-.suffix span { font-size: 13px; color: var(--text-sub); flex: none; }
+.suffix span { font-size: 13px; color: var(--ink-sub); flex: none; }
 
-/* 選択肢 */
-
-.choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.choices { display: flex; flex-wrap: wrap; gap: 7px; }
 .choices label {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   font-size: 13px;
   border: 1px solid var(--line-strong);
-  border-radius: var(--r-pill);
-  padding: 8px 15px;
+  border-radius: var(--r-hit);
+  padding: 8px 13px;
   cursor: pointer;
-  background: var(--surface);
-  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  background: var(--paper);
 }
-.choices input { accent-color: var(--accent); margin: 0; }
+.choices input { accent-color: var(--red); margin: 0; }
 .choices label:has(input:checked) {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  color: var(--accent);
+  border-color: var(--red);
+  background: var(--red-soft);
+  color: var(--red);
   font-weight: 700;
 }
-.choices label:active { background: var(--surface-2); }
 
 .check {
   display: flex;
@@ -474,162 +419,114 @@ summary:focus-visible {
   align-items: flex-start;
   font-size: 13px;
   line-height: 1.7;
-  background: var(--surface);
+  background: var(--paper-2);
   border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  padding: 14px 15px;
+  border-radius: var(--r-hit);
+  padding: 13px 14px;
   cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
-.check input { margin: 5px 0 0; accent-color: var(--accent); flex: none; }
-.check:has(input:checked) {
-  border-color: var(--accent-line);
-  background: var(--accent-soft);
-}
+.check input { margin: 5px 0 0; accent-color: var(--red); flex: none; }
 
-/* 入力エラー */
-
-.field.bad input,
-.field.bad select,
-.field.bad textarea { border-color: var(--err); }
-.field.bad input:focus,
-.field.bad select:focus,
-.field.bad textarea:focus { box-shadow: 0 0 0 3px var(--err-soft); }
-
-.err-msg {
-  display: none;
-  font-size: 12.5px;
-  line-height: 1.7;
-  color: var(--err);
-  margin: 6px 0 0;
-}
+.field.bad input, .field.bad select, .field.bad textarea { border-color: var(--err); }
+.err-msg { display: none; font-size: 12.5px; line-height: 1.7; color: var(--err); margin: 6px 0 0; }
 .field.bad .err-msg { display: block; }
 
-/* ===== 8. ボタン ===== */
+/* ---- ボタン（LP：角ばり＋英字の副題） ---- */
 
-.actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 24px;
-}
+.actions { display: flex; gap: 8px; margin-top: 22px; }
 .actions .btn { flex: 1; }
 
 .btn {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 2px;
   font: inherit;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: 0.02em;
   min-height: 48px;
-  padding: 12px 18px;
-  border-radius: var(--r-md);
+  padding: 10px 18px;
+  border-radius: var(--r-hit);
   border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
   text-align: center;
-  transition: opacity 0.12s ease, background-color 0.15s ease;
+  transition: opacity 0.12s ease;
 }
-.btn-primary {
-  background: var(--accent);
-  color: var(--accent-ink);
+.btn-sub {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  opacity: 0.72;
 }
-.btn-secondary {
-  background: var(--surface);
-  color: var(--text);
-  border-color: var(--line-strong);
-}
+.btn-primary { background: var(--red); color: var(--red-ink); }
+.btn-secondary { background: var(--paper); color: var(--ink); border-color: var(--line-strong); }
 .btn:active { opacity: 0.78; }
-.btn-secondary:active { background: var(--surface-2); opacity: 1; }
 .btn:disabled { opacity: 0.45; cursor: default; }
 
-/* ===== 9. 箱（カード・注意書き・エラー） ===== */
+/* ---- 箱 ---- */
 
 .panel {
-  background: var(--surface);
+  background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  padding: 18px;
-  margin: 0 0 14px;
+  border-radius: var(--r-box);
+  padding: 16px;
+  margin: 0 0 12px;
 }
-.panel p { margin: 0; font-size: 13px; line-height: 1.8; color: var(--text-sub); }
-.panel .summary { margin: 14px 0 0; }
-.panel .actions { margin-top: 18px; }
+.panel p { margin: 0; font-size: 13px; line-height: 1.8; color: var(--ink-sub); }
+.panel .summary { margin: 12px 0 0; }
+.panel .actions { margin-top: 16px; }
 
 .notice {
-  background: var(--accent-soft);
-  border: 1px solid var(--accent-line);
-  border-radius: var(--r-md);
-  padding: 13px 15px;
-  font-size: 13px;
+  background: var(--paper-2);
+  border-left: 3px solid var(--red);
+  border-radius: 0 var(--r-hit) var(--r-hit) 0;
+  padding: 12px 14px;
+  font-size: 12.5px;
   line-height: 1.8;
-  color: var(--text);
-  margin: 0 0 16px;
+  margin: 0 0 14px;
 }
-.notice.done {
-  background: var(--ok-soft);
-  border-color: var(--ok-line);
-}
+.notice.done { border-left-color: var(--ok); background: var(--ok-soft); }
 
 .error-box {
   background: var(--err-soft);
-  border: 1px solid var(--err-line);
-  border-radius: var(--r-md);
-  padding: 14px 15px;
-  margin: 0 0 16px;
+  border-left: 3px solid var(--err);
+  border-radius: 0 var(--r-hit) var(--r-hit) 0;
+  padding: 13px 14px;
+  margin: 0 0 14px;
   font-size: 13px;
   line-height: 1.8;
 }
 .error-box p { margin: 0 0 8px; }
-.error-box .meta {
-  font-family: var(--mono);
-  font-size: 12px;
-  line-height: 1.7;
-  color: var(--text-sub);
-  margin: 0;
-}
+.error-box .meta { font-family: var(--mono); font-size: 11.5px; color: var(--ink-sub); margin: 0; }
 
-/* ===== 10. 明細 ===== */
+/* ---- 明細 ---- */
 
-.summary {
-  border-top: 1px solid var(--line);
-  margin: 0 0 8px;
-}
-.summary dl {
-  display: grid;
-  grid-template-columns: 8em 1fr;
-  gap: 0;
-  margin: 0;
-}
-.summary dt,
-.summary dd {
+.summary { border-top: 1px solid var(--line); margin: 0 0 8px; }
+.summary dl { display: grid; grid-template-columns: 8em 1fr; margin: 0; }
+.summary dt, .summary dd {
   border-bottom: 1px solid var(--line);
   padding: 11px 0;
   margin: 0;
   font-size: 13px;
   line-height: 1.75;
 }
-.summary dt {
-  color: var(--text-mute);
-  font-size: 12px;
-  padding-right: 12px;
-}
-.summary dd { word-break: break-word; }
-.summary dd:empty::before { content: "未入力"; color: var(--text-mute); }
+.summary dt { color: var(--ink-mute); font-size: 11.5px; letter-spacing: 0.02em; padding-right: 12px; }
+.summary dd { word-break: break-word; font-weight: 500; }
+.summary dd:empty::before { content: "未入力"; color: var(--ink-mute); font-weight: 400; }
 
-/* ===== 11. 質問と答え ===== */
+/* ---- 質問と答え ---- */
 
-/* details / summary の開閉をそのまま使う（JSなし） */
 .accordion {
-  background: var(--surface);
+  background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-box);
   overflow: hidden;
-  margin: 0 0 14px;
+  margin: 0 0 12px;
 }
 .accordion details + details { border-top: 1px solid var(--line); }
-
 .accordion summary {
   display: flex;
   align-items: center;
@@ -637,12 +534,12 @@ summary:focus-visible {
   padding: 13px 15px;
   font-size: 13.5px;
   font-weight: 700;
-  line-height: 1.6;
+  line-height: 1.55;
   cursor: pointer;
   list-style: none;
 }
 .accordion summary::-webkit-details-marker { display: none; }
-.accordion summary:active { background: var(--surface-2); }
+.accordion summary:active { background: var(--paper-2); }
 .accordion summary .chev {
   margin-left: auto;
   transform: rotate(135deg);
@@ -650,98 +547,60 @@ summary:focus-visible {
   position: relative;
   top: -2px;
 }
-.accordion details[open] summary .chev {
-  transform: rotate(-45deg);
-  top: 2px;
-}
-
+.accordion details[open] summary .chev { transform: rotate(-45deg); top: 2px; }
 .accordion .acc-body {
-  background: var(--surface-2);
+  background: var(--paper-2);
   border-top: 1px solid var(--line);
   padding: 13px 15px;
   font-size: 13px;
   line-height: 1.85;
-  color: var(--text-sub);
+  color: var(--ink-sub);
 }
 .accordion .acc-body p { margin: 0; }
-.accordion .acc-body p + p { margin-top: 10px; }
 
-/* ===== 12. 空・読み込み中 ===== */
+/* ---- 空・読み込み中 ---- */
 
 .empty {
   text-align: center;
-  margin: 0 0 14px;
-  padding: 44px 20px;
-  color: var(--text-sub);
-  background: var(--surface);
+  margin: 0 0 12px;
+  padding: 40px 20px;
+  color: var(--ink-sub);
+  background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-box);
 }
-.empty strong {
-  display: block;
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-.empty p { margin: 0 0 20px; font-size: 13px; line-height: 1.8; }
+.empty strong { display: block; font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
+.empty p { margin: 0 0 18px; font-size: 13px; line-height: 1.8; }
 .empty .btn { width: 100%; }
 
-.loading {
-  padding: 40px 0 64px;
-  color: var(--text-mute);
-  font-size: 13px;
-  text-align: center;
-}
-
+.loading { padding: 36px 0 60px; color: var(--ink-mute); font-size: 12.5px; text-align: center; }
 .skeleton {
-  height: 14px;
-  border-radius: var(--r-sm);
-  margin: 0 auto 12px;
-  background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface) 50%, var(--surface-2) 75%);
+  height: 13px;
+  border-radius: 2px;
+  margin: 0 auto 11px;
+  background: linear-gradient(90deg, var(--paper-2) 25%, var(--paper-3) 50%, var(--paper-2) 75%);
   background-size: 300% 100%;
   animation: shimmer 1.4s linear infinite;
 }
+@keyframes shimmer { from { background-position: 150% 0; } to { background-position: -150% 0; } }
 
-@keyframes shimmer {
-  from { background-position: 150% 0; }
-  to { background-position: -150% 0; }
-}
-
-/* ===== 13. フッター ===== */
+/* ---- フッター ---- */
 
 .foot {
-  margin-top: 36px;
-  padding-top: 16px;
+  margin-top: 32px;
+  padding-top: 14px;
   border-top: 1px solid var(--line);
-  font-size: 11px;
-  color: var(--text-mute);
+  font-size: 10.5px;
+  color: var(--ink-mute);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 6px 14px;
 }
-
-.foot #version {
-  font-family: var(--mono);
-  letter-spacing: 0.02em;
-}
-
-.foot a {
-  color: var(--text-sub);
-  text-decoration: none;
-  border-bottom: 1px solid var(--line-strong);
-}
-
-/* ===== 14. 出現 ===== */
+.foot #version { font-family: var(--mono); letter-spacing: 0.02em; }
+.foot a { color: var(--ink-sub); text-decoration: none; border-bottom: 1px solid var(--line-strong); }
 
 main, .topbar { animation: rise 0.3s cubic-bezier(0.22, 0.8, 0.3, 1) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
 
-@keyframes rise {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
-}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
