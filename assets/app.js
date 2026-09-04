@@ -150,6 +150,48 @@
       });
   }
 
+  /**
+   * LIFF のパス指定を処理する。
+   *
+   * `https://liff.line.me/{liffId}/profile` を開くと、LINE は
+   * エンドポイントURLへ `?liff.state=%2Fprofile` を付けて開く。
+   * それを読んで実際のパスへ移動させるのは LIFF SDK の役目なので、
+   * SDK を読んでいないページでは入口に留まってしまう。
+   *
+   * API を使わない静的ページ（お知らせ・FAQ・お問い合わせ・入口）でも
+   * 遷移だけは成立させたいので、ここで自前に処理する。
+   * SDK を読んでいるページでは SDK 側が先に処理するため二重にならない。
+   */
+  function resolveLiffState() {
+    var params = new URLSearchParams(window.location.search);
+    var state = params.get('liff.state');
+    if (!state) return false;
+
+    // 自サイト内の相対パスだけを許す。外部URLへ飛ばさない
+    if (state.charAt(0) !== '/' || state.indexOf('//') === 0) return false;
+
+    var norm = function (x) { return String(x).replace(/\/+$/, ''); };
+
+    // すでにその場所にいるなら何もしない。パスの二重付与を防ぐ
+    // （例: /profile/ にいるのに liff.state=/profile が付いている場合）
+    var here = norm(window.location.pathname);
+    var want = norm(state);
+    if (want && here.slice(-want.length) === want) return false;
+
+    // liff.state はエンドポイントURL（サイトのルート）に付く
+    var m = window.location.pathname.match(/^(.*?)\/(?:index\.html)?$/);
+    if (!m) return false;
+    var base = m[1];
+
+    params.delete('liff.state');
+    var rest = params.toString();
+    var target = base + state + (rest ? '?' + rest : '');
+
+    if (target === window.location.pathname + window.location.search) return false;
+    window.location.replace(target);
+    return true;
+  }
+
   /** フッターに版数を出す（v8 §14.9） */
   function renderVersion() {
     var f = el('version');
@@ -173,7 +215,11 @@
     renderVersion: renderVersion,
     newIdempotencyKey: newIdempotencyKey,
     liffPath: liffPath,
+    resolveLiffState: resolveLiffState,
   };
 
-  document.addEventListener('DOMContentLoaded', renderVersion);
+  // liff.state の処理は他の初期化より先に行う（移動するなら描画は無駄になる）
+  if (!resolveLiffState()) {
+    document.addEventListener('DOMContentLoaded', renderVersion);
+  }
 })();
