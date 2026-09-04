@@ -19,7 +19,6 @@
   var AREAS = ['北海道・東北','関東','中部','関西','中国・四国','九州・沖縄'];
   var PREPARATION = ['可','条件付き可','不可'];
   var WEEKDAYS = ['平日','土日祝'];
-  var TIME_SLOTS = ['午前','午後','夜間'];
   var TRAVEL = ['遠征可','近隣のみ','不可'];
 
   /* ---------- 項目定義 ---------- */
@@ -31,8 +30,11 @@
       fields: [
         { name: 'activityName', label: '活動名／コスプレネーム', type: 'text', required: true, hint: '案件のご案内や誌面掲載で使用します。あとから変更できます。' },
         { name: 'email', label: 'メールアドレス', type: 'email', required: true, hint: '例: taro@example.com' },
-        { name: 'birthDate', label: '生年月日', type: 'date', required: true, hint: '年齢の表示には使いません。18歳未満の方の確認にのみ使用します。' },
+        { name: 'birthDate', label: '生年月日', type: 'date', required: true, hint: '年齢の表示には使用しません。' },
         { name: 'prefecture', label: 'お住まいの都道府県', type: 'select', required: true, options: PREFECTURES, hint: '住所の全文はお聞きしません。' },
+        { name: 'heightCm', label: '身長', type: 'text', required: true, hint: '例: 162cm' },
+        { name: 'shoeSizeCm', label: '靴のサイズ', type: 'text', required: true, hint: '例: 24.5cm' },
+        { name: 'topSize', label: '服のサイズ', type: 'text', required: false, hint: '例: M ／ トップスS・ボトムスM など。自由にご記入ください。' },
       ],
     },
     {
@@ -41,12 +43,8 @@
       fields: [
         { name: 'availableAreas', label: '対応可能なエリア', type: 'checks', required: true, options: AREAS, hint: '複数選べます。' },
         { name: 'availableAreasNote', label: 'エリアの補足', type: 'text', required: false, hint: '「都内であれば平日も可」など、あれば記入してください。' },
-        { name: 'heightCm', label: '身長', type: 'number', required: true, unit: 'cm', min: 100, max: 230 },
-        { name: 'shoeSizeCm', label: '靴のサイズ', type: 'number', required: true, unit: 'cm', min: 18, max: 35, stepAttr: '0.5' },
-        { name: 'wigPreparation', label: 'ウィッグのご自身での準備', type: 'radios', required: true, options: PREPARATION },
         { name: 'makeupPreparation', label: 'メイクのご自身での準備', type: 'radios', required: true, options: PREPARATION },
         { name: 'availableWeekdays', label: '活動できる曜日', type: 'checks', required: true, options: WEEKDAYS },
-        { name: 'availableTimeSlots', label: '活動できる時間帯', type: 'checks', required: true, options: TIME_SLOTS },
         { name: 'travelAvailability', label: '遠征の可否', type: 'radios', required: true, options: TRAVEL },
       ],
     },
@@ -69,8 +67,6 @@
     { name: 'bustCm', label: 'バスト', type: 'text' },
     { name: 'waistCm', label: 'ウエスト', type: 'text' },
     { name: 'hipCm', label: 'ヒップ', type: 'text' },
-    { name: 'topSize', label: 'トップスのサイズ', type: 'text' },
-    { name: 'bottomSize', label: 'ボトムスのサイズ', type: 'text' },
     { name: 'specialties', label: '得意ジャンル', type: 'text' },
     { name: 'faceVisibility', label: '顔出しの可否', type: 'text' },
     { name: 'selfPr', label: '活動歴・自己PR', type: 'textarea' },
@@ -149,7 +145,6 @@
 
   function renderStep(no) {
     var step = STEPS[no - 1];
-    var isMinor = state && state.profile && state.profile.isMinor;
     var extra = '';
 
     if (step.snsNote) {
@@ -158,15 +153,16 @@
     }
 
     if (no === 3) {
-      if (isMinor) {
-        extra += '<div class="field" data-field="guardianConsentInitial">' +
-          '<label class="check" for="f-guardian">' +
-          '<input type="checkbox" id="f-guardian" name="guardianConsentInitial"' +
-          (valueOf('guardianConsentInitial') === true ? ' checked' : '') + '>' +
-          '<span>保護者の同意を得ています<span class="req">必須</span><br>' +
-          '<span class="hint">18歳未満の方のみ表示しています。案件へ進む際に、あらためて保護者の方の同意確認をお願いすることがあります。</span></span>' +
-          '</label><p class="err-msg" id="e-guardianConsentInitial"></p></div>';
-      }
+      // 確認項目。18歳以上の方にも出す（年齢で出し分けると、生年月日から
+      // 未成年だと分かる作りになってしまう）
+      extra += '<div class="field" data-field="guardianConsentInitial">' +
+        '<label class="check" for="f-guardian">' +
+        '<input type="checkbox" id="f-guardian" name="guardianConsentInitial"' +
+        (valueOf('guardianConsentInitial') === true ? ' checked' : '') + '>' +
+        '<span>18歳未満の場合、保護者の同意を得ています<span class="req">必須</span><br>' +
+        '<span class="hint">18歳以上の方もチェックしてください。18歳未満の方は、案件へ進む際にあらためて保護者の方の同意確認をお願いすることがあります。</span></span>' +
+        '</label><p class="err-msg" id="e-guardianConsentInitial"></p></div>';
+
       extra += '<div class="field" data-field="termsAgreed">' +
         '<label class="check" for="f-terms">' +
         '<input type="checkbox" id="f-terms" name="termsAgreed">' +
@@ -318,17 +314,16 @@
         row('メール', p.email) +
         row('生年月日', p.birthDate) +
         row('都道府県', p.prefecture) +
+        row('身長', p.heightCm) +
+        row('靴のサイズ', p.shoeSizeCm) +
+        row('服のサイズ', p.topSize) +
       '</dl></div>' +
 
       '<h2>活動条件</h2><div class="summary"><dl>' +
         row('対応エリア', joinList(p.availableAreas)) +
         row('エリア補足', p.availableAreasNote) +
-        row('身長', p.heightCm ? p.heightCm + ' cm' : '') +
-        row('靴のサイズ', p.shoeSizeCm ? p.shoeSizeCm + ' cm' : '') +
-        row('ウィッグ', p.wigPreparation) +
         row('メイク', p.makeupPreparation) +
         row('活動曜日', joinList(p.availableWeekdays)) +
-        row('活動時間帯', joinList(p.availableTimeSlots)) +
         row('遠征', p.travelAvailability) +
       '</dl></div>' +
 
@@ -354,20 +349,18 @@
 
   function renderEdit() {
     var all = STEPS.reduce(function (acc, s) { return acc.concat(s.fields); }, []);
-    var isMinor = state && state.profile && state.profile.isMinor;
 
     app.innerHTML =
       '<div class="sec sec-lead"><p class="sec-en">EDIT</p><h2>登録内容の変更</h2></div>' +
       '<p class="lead">変更したい項目だけ書き換えて保存してください。触っていない項目はそのまま残ります。</p>' +
       '<h2>基本情報・活動条件・SNS</h2>' +
       all.map(fieldHtml).join('') +
-      (isMinor
-        ? '<div class="field" data-field="guardianConsentInitial"><label class="check" for="f-guardian">' +
-          '<input type="checkbox" id="f-guardian" name="guardianConsentInitial"' +
-          (state.profile.guardianConsentInitial ? ' checked' : '') + '>' +
-          '<span>保護者の同意を得ています<span class="req">必須</span></span></label>' +
-          '<p class="err-msg" id="e-guardianConsentInitial"></p></div>'
-        : '') +
+      '<div class="field" data-field="guardianConsentInitial"><label class="check" for="f-guardian">' +
+        '<input type="checkbox" id="f-guardian" name="guardianConsentInitial"' +
+        (state.profile && state.profile.guardianConsentInitial ? ' checked' : '') + '>' +
+        '<span>18歳未満の場合、保護者の同意を得ています<span class="req">必須</span><br>' +
+        '<span class="hint">18歳以上の方もチェックしてください。</span></span></label>' +
+        '<p class="err-msg" id="e-guardianConsentInitial"></p></div>' +
       '<h2>任意項目</h2>' +
       '<p class="lead">未入力のままでも登録は有効です。案件のご案内の精度が上がります。</p>' +
       OPTIONAL_FIELDS.map(fieldHtml).join('') +

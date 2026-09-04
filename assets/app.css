@@ -469,7 +469,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
   font-weight: 800;
   letter-spacing: 0.01em;
   min-height: 52px;
-  padding: 12px 34px;
+  padding: 12px 18px;
   border-radius: var(--r-hit);
   border: 1.5px solid transparent;
   cursor: pointer;
@@ -477,6 +477,9 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
   text-align: center;
   transition: opacity 0.12s ease;
 }
+/* 山括弧のあるボタンだけ左右に余白を足す。
+   全部のボタンに足すと「登録を完了する」が2行に折れる */
+.btn:has(.chev) { padding-left: 34px; padding-right: 34px; }
 .btn .chev {
   position: absolute;
   right: 16px;
