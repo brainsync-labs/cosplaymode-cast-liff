@@ -13,7 +13,7 @@ window.CMC_CONFIG = {
   liffId: '2011428122-Stw0lwML',
 
   // GAS ウェブアプリの /exec URL（公開情報）
-  apiUrl: '__GAS_API_URL__',
+  apiUrl: 'https://script.google.com/macros/s/AKfycbwixWLUd_5r0QZ8Yo5OYkO30L41dO8gYRV1t-D-Qnt-GmNFPphliRmWXc-EsmcgrvGC/exec',
 
   // 画面側のリリース版数。GAS 側の RELEASE_VERSION と一致していること
   releaseVersion: '2026.09.04-01',
