@@ -69,7 +69,6 @@
   // 応募フォームで聞く。プロフィールに常時持たせない。
   var OPTIONAL_FIELDS = [
     { name: 'specialties', label: '得意ジャンル', type: 'text', hint: 'メインジャンル以外にも対応できるものがあればご記入ください。' },
-    { name: 'faceVisibility', label: '顔出しの可否', type: 'text' },
     { name: 'selfPr', label: '活動歴・自己PR', type: 'textarea' },
     { name: 'notes', label: '備考', type: 'textarea' },
   ];
@@ -272,7 +271,7 @@
         state = data;
         delete cache['__key' + no];
         if (data.profileStatus === 'complete') {
-          renderComplete(true);
+          renderComplete('registered');
         } else {
           renderStep(Math.min(no + 1, 3));
         }
@@ -299,7 +298,12 @@
 
   function joinList(v) { return Array.isArray(v) ? v.join('、') : (v || ''); }
 
-  function renderComplete(justSaved) {
+  /**
+   * 確認・変更画面。
+   * @param {string|boolean} saved 'registered'（初回登録直後）／'updated'（変更を保存した直後）／
+   *                               それ以外は案内を出さない。true は 'registered' として扱う
+   */
+  function renderComplete(saved) {
     var p = state.profile || {};
     cache = {};
 
@@ -308,9 +312,11 @@
     }
 
     app.innerHTML =
-      (justSaved
-        ? '<div class="notice done"><strong>CASTプロフィールを登録しました。</strong><br>今後はLINEからいつでも確認・変更できます。</div>'
-        : '') +
+      (saved === 'updated'
+        ? '<div class="notice done"><strong>変更を保存しました。</strong><br>最新の内容は下のとおりです。</div>'
+        : (saved
+          ? '<div class="notice done"><strong>CASTプロフィールを登録しました。</strong><br>今後はLINEからいつでも確認・変更できます。</div>'
+          : '')) +
       '<div class="sec sec-lead"><p class="sec-en">PROFILE</p><h2>登録情報の確認・変更</h2></div>' +
       '<p class="lead">CAST ID：' + esc(p.castId || state.castId || '') + '</p>' +
 
@@ -416,7 +422,8 @@
         .then(function (data) {
           state = data;
           cache = {};
-          renderComplete(false);
+          renderComplete('updated');
+          window.scrollTo(0, 0);
         })
         .catch(function (e) {
           btn.disabled = false;
