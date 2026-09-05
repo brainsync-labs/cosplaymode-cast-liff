@@ -510,6 +510,8 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
   margin: 0 0 14px;
 }
 .panel p { margin: 0; font-size: 13px; line-height: 1.85; color: var(--ink-sub); }
+/* お知らせのように段落が続く箱で、行が詰まって読めなくなるのを防ぐ */
+.panel p + p { margin-top: 11px; }
 .panel .summary { margin: 14px 0 0; }
 .panel .actions { margin-top: 16px; }
 /* 見出しと状態の札を同じ行に並べる */
