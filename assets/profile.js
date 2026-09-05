@@ -53,9 +53,11 @@
       no: 3,
       title: 'SNS・同意',
       fields: [
-        { name: 'xAccount', label: 'X（旧Twitter）', type: 'text', required: false, hint: '@から始まるIDまたはURL' },
-        { name: 'instagramAccount', label: 'Instagram', type: 'text', required: false },
-        { name: 'tiktokAccount', label: 'TikTok', type: 'text', required: false },
+        // 3つで「1つ以上」が必須。個別は任意なので badge を分ける
+        // （「任意」と出したまま先へ進めないのは表記ミス。2026-09-05 修正）
+        { name: 'xAccount', label: 'X（旧Twitter）', type: 'text', required: false, badge: 'いずれか1つ', hint: '@から始まるIDまたはURL' },
+        { name: 'instagramAccount', label: 'Instagram', type: 'text', required: false, badge: 'いずれか1つ' },
+        { name: 'tiktokAccount', label: 'TikTok', type: 'text', required: false, badge: 'いずれか1つ' },
         { name: 'otherSns', label: 'その他のSNS', type: 'text', required: false },
       ],
       snsNote: true,
@@ -85,7 +87,9 @@
 
   function fieldHtml(f) {
     var v = valueOf(f.name);
-    var badge = f.required ? '<span class="req">必須</span>' : '<span class="opt">任意</span>';
+    var badge = f.badge
+      ? '<span class="req">' + esc(f.badge) + '</span>'
+      : (f.required ? '<span class="req">必須</span>' : '<span class="opt">任意</span>');
     var body = '';
 
     if (f.type === 'select') {
@@ -148,7 +152,9 @@
 
     if (step.snsNote) {
       extra += '<div class="notice">X・Instagram・TikTok のうち、<strong>1つ以上</strong>のご入力をお願いします。' +
-        'お持ちでないサービスは空欄のままで構いません。</div>';
+        'お持ちでないサービスは空欄のままで構いません。<br>' +
+        '<strong>以前ご応募いただいたときと同じ内容で構いません。</strong>' +
+        '変更があれば新しい内容をご記入ください。</div>';
     }
 
     if (no === 3) {
