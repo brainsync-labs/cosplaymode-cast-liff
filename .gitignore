@@ -8,3 +8,4 @@
 *.pem
 *.key
 *.p12
+_localtest/
