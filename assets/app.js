@@ -102,12 +102,32 @@
    * LIFF を初期化してIDトークンを取り、onReady を呼ぶ。
    * IDトークンはメモリにだけ置き、URL・localStorage・ログへ出さない。
    */
+  /**
+   * 読み込み中の文言を差し替える。
+   * GASは起動が遅く、初回は数秒かかる。何も出ていない時間があると
+   * 「壊れている」と思われるので、いま何をしているかを出し続ける。
+   */
+  function loadingNote(text) {
+    var n = el('loading-note');
+    if (n) n.textContent = text;
+  }
+
   function boot(onReady) {
     var errBox = el('error');
     var loading = el('loading');
 
-    if (!CFG.liffId || CFG.liffId.indexOf('__') === 0) {
+    // 待たせすぎたときだけ、追加の一言を出す
+    var slowTimer = setTimeout(function () {
+      loadingNote('もう少しかかります。そのままお待ちください。');
+    }, 6000);
+
+    function doneLoading() {
+      clearTimeout(slowTimer);
       if (loading) loading.hidden = true;
+    }
+
+    if (!CFG.liffId || CFG.liffId.indexOf('__') === 0) {
+      doneLoading();
       showError(errBox, {
         errorCode: 'SYS-001',
         message: 'この画面はまだ公開準備中です。9月4日の公開までお待ちください。',
@@ -116,7 +136,7 @@
     }
 
     if (typeof liff === 'undefined') {
-      if (loading) loading.hidden = true;
+      doneLoading();
       showError(errBox, {
         errorCode: 'AUTH-001',
         message: 'LINEの情報を取得できませんでした。LINEアプリのメニューから開き直してください。',
@@ -138,11 +158,19 @@
             message: 'LINEの情報を取得できませんでした。LINEアプリのメニューから開き直してください。',
           });
         }
-        if (loading) loading.hidden = true;
-        return onReady();
+        // ここで消してはいけない。いちばん時間がかかるのは次の onReady()
+        // （GASへの通信）で、先に消すと画面が真っ白になる。
+        loadingNote('登録内容を読み込んでいます…');
+        return Promise.resolve(onReady()).then(function (r) {
+          doneLoading();
+          return r;
+        }, function (e) {
+          doneLoading();
+          throw e;
+        });
       })
       .catch(function (e) {
-        if (loading) loading.hidden = true;
+        doneLoading();
         showError(errBox, e && e.errorCode ? e : {
           errorCode: 'AUTH-002',
           message: 'ログイン情報の有効期限が切れました。この画面を閉じて、もう一度開いてください。',
