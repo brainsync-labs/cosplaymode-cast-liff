@@ -16,7 +16,7 @@ window.CMC_CONFIG = {
   apiUrl: 'https://script.google.com/macros/s/AKfycbwixWLUd_5r0QZ8Yo5OYkO30L41dO8gYRV1t-D-Qnt-GmNFPphliRmWXc-EsmcgrvGC/exec',
 
   // 画面側のリリース版数。GAS 側の RELEASE_VERSION と一致していること
-  releaseVersion: '2026.09.05-03',
+  releaseVersion: '2026.09.05-04',
 
   // 問い合わせ導線
   contactUrl: '',
