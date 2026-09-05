@@ -29,6 +29,7 @@
       title: '基本情報',
       fields: [
         { name: 'activityName', label: '活動名／コスプレネーム', type: 'text', required: true, hint: '案件のご案内や誌面掲載で使用します。あとから変更できます。' },
+        { name: 'mainGenre', label: '現在のメインジャンル', type: 'text', required: true, hint: 'ジャンル名・作品名・創作系など、該当するものをご記入ください。例: 〇〇（作品名）／ 創作系' },
         { name: 'email', label: 'メールアドレス', type: 'email', required: true, hint: '例: taro@example.com' },
         { name: 'birthDate', label: '生年月日', type: 'date', required: true, hint: '年齢の表示には使用しません。' },
         { name: 'prefecture', label: 'お住まいの都道府県', type: 'select', required: true, options: PREFECTURES, hint: '住所の全文はお聞きしません。' },
@@ -62,12 +63,10 @@
   ];
 
   /** 登録完了後だけ追加できる任意項目（v8 §7） */
+  // 体重・スリーサイズは 2026-09-05 に外した。案件ごとに必要なときだけ
+  // 応募フォームで聞く。プロフィールに常時持たせない。
   var OPTIONAL_FIELDS = [
-    { name: 'weightKg', label: '体重', type: 'text', hint: '回答しない場合は空欄のままで構いません。' },
-    { name: 'bustCm', label: 'バスト', type: 'text' },
-    { name: 'waistCm', label: 'ウエスト', type: 'text' },
-    { name: 'hipCm', label: 'ヒップ', type: 'text' },
-    { name: 'specialties', label: '得意ジャンル', type: 'text' },
+    { name: 'specialties', label: '得意ジャンル', type: 'text', hint: 'メインジャンル以外にも対応できるものがあればご記入ください。' },
     { name: 'faceVisibility', label: '顔出しの可否', type: 'text' },
     { name: 'selfPr', label: '活動歴・自己PR', type: 'textarea' },
     { name: 'notes', label: '備考', type: 'textarea' },
@@ -311,6 +310,7 @@
 
       '<h2>基本情報</h2><div class="summary"><dl>' +
         row('活動名', p.activityName) +
+        row('メインジャンル', p.mainGenre) +
         row('メール', p.email) +
         row('生年月日', p.birthDate) +
         row('都道府県', p.prefecture) +
