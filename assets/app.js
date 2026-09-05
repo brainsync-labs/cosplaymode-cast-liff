@@ -124,6 +124,20 @@
     function doneLoading() {
       clearTimeout(slowTimer);
       if (loading) loading.hidden = true;
+
+      // 読み込み表示だけ消えて何も描かれていない「空の画面」を作らない。
+      // 壊れて見えるうえ、利用者が次に何をすればよいか分からなくなる。
+      // 描画は直前の then で終わっているので、ここで確認できる。
+      var appEl = el('app');
+      var hasApp = !!(appEl && !appEl.hidden && appEl.innerHTML.replace(/\s/g, '') !== '');
+      var hasErr = !!(errBox && !errBox.hidden && errBox.innerHTML.replace(/\s/g, '') !== '');
+      if (!hasApp && !hasErr) {
+        showError(errBox, {
+          errorCode: 'SYS-002',
+          message: '画面を読み込めませんでした。通信状況をご確認のうえ、'
+            + 'この画面を閉じて、もう一度メニューから開いてください。',
+        });
+      }
     }
 
     if (!CFG.liffId || CFG.liffId.indexOf('__') === 0) {
