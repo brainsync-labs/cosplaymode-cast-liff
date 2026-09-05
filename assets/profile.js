@@ -34,7 +34,7 @@
         { name: 'prefecture', label: 'お住まいの都道府県', type: 'select', required: true, options: PREFECTURES, hint: '住所の全文はお聞きしません。' },
         { name: 'heightCm', label: '身長', type: 'text', required: true, hint: '例: 162cm' },
         { name: 'shoeSizeCm', label: '靴のサイズ', type: 'text', required: true, hint: '例: 24.5cm' },
-        { name: 'topSize', label: '服のサイズ', type: 'text', required: false, hint: '例: M ／ トップスS・ボトムスM など。自由にご記入ください。' },
+        { name: 'topSize', label: '服のサイズ', type: 'text', required: true, hint: '例: M ／ トップスS・ボトムスM など。自由にご記入ください。' },
       ],
     },
     {
