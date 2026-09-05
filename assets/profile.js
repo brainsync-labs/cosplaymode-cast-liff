@@ -405,10 +405,11 @@
           if (i) values[f.name] = i.value;
         }
       });
-      if (isMinor) {
-        var g = app.querySelector('input[name="guardianConsentInitial"]');
-        values.guardianConsentInitial = g ? g.checked : false;
-      }
+      // 確認のチェックは年齢に関わらず全員に出しているので、常に読む。
+      // ここで未定義の変数を参照していたため、押しても例外で止まり、
+      // 保存が一度も実行されていなかった（2026-09-06 修正）。
+      var g = app.querySelector('input[name="guardianConsentInitial"]');
+      if (g) values.guardianConsentInitial = g.checked;
       cache = values;
 
       clearFieldErrors();
