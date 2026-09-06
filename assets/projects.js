@@ -76,16 +76,13 @@
 
     window.CMC.post('entry.start', { projectId: projectId })
       .then(function (data) {
-        btn.textContent = '応募フォームを開きます…';
-        // LINE内ブラウザから外部ブラウザへ出す。フォーム送信の取りこぼしを避ける
-        if (typeof liff !== 'undefined' && liff.openWindow) {
-          liff.openWindow({ url: data.formUrl, external: true });
-          btn.disabled = false;
-          btn.innerHTML = 'この案件に応募する<span class="chev"></span>';
-          showAfterOpen(projectId);
-        } else {
-          window.location.href = data.formUrl;
-        }
+        btn.disabled = false;
+        btn.innerHTML = 'この案件に応募する<span class="chev"></span>';
+
+        // 自動で開かない。liff.openWindow({external:true}) はAndroidで
+        // 無反応になることがあり、「押しても何も起きない」状態になっていた
+        // （2026-09-06）。本人がタップするリンクを出せば必ず開く。
+        showFormLink(projectId, data.formUrl);
       })
       .catch(function (e) {
         btn.disabled = false;
@@ -115,14 +112,35 @@
     if (card) card.innerHTML = html;
   }
 
-  function showAfterOpen(projectId) {
+  /**
+   * 応募フォームへのリンクを出す。
+   *
+   * 以前は liff.openWindow で自動的に開いていたが、Androidで無反応になり
+   * 「押しても何も起きない」という問い合わせが出た（2026-09-06）。
+   * 本人のタップで開く形にすれば、どの端末でも確実に開く。
+   */
+  function showFormLink(projectId, formUrl) {
     var card = app.querySelector('[data-project="' + projectId + '"]');
-    if (!card || card.querySelector('.js-opened')) return;
-    var note = document.createElement('div');
-    note.className = 'notice js-opened';
-    note.innerHTML = '応募フォームを開きました。<strong>送信が終わったらこの画面に戻ってください。</strong><br>' +
-      '「応募・進行中」への反映には数分かかる場合があります。';
-    card.appendChild(note);
+    if (!card) return;
+
+    var old = card.querySelector('.js-opened');
+    if (old) old.parentNode.removeChild(old);
+
+    var box = document.createElement('div');
+    box.className = 'js-opened';
+    box.innerHTML =
+      '<div class="actions" style="margin-top:14px">' +
+        '<a class="btn btn-primary" href="' + esc(formUrl) + '" target="_blank" rel="noopener">' +
+          '応募フォームを開く<span class="chev"></span>' +
+        '</a>' +
+      '</div>' +
+      '<div class="notice" style="margin-top:12px">' +
+        '上のボタンから応募フォームが開きます。<br>' +
+        '<strong>送信が終わったら、この画面に戻ってください。</strong><br>' +
+        '「エントリー済みの案件」への反映には数分かかる場合があります。' +
+      '</div>';
+    card.appendChild(box);
+    box.scrollIntoView({ block: 'center' });
   }
 
   document.addEventListener('DOMContentLoaded', function () {
