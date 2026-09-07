@@ -606,6 +606,8 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
   color: var(--ink-sub);
 }
 .accordion .acc-body p { margin: 0; }
+/* 回答が複数段落になるものがあるので、続く段落に余白を入れる */
+.accordion .acc-body p + p { margin-top: 11px; }
 
 /* ===== 12. 空・読み込み中 ===== */
 
