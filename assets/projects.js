@@ -140,7 +140,7 @@
       '<div class="notice notice-go" style="margin-top:12px">' +
         '<strong>上の緑のボタンから応募フォームが開きます。</strong><br>' +
         '送信が終わったら、この画面に戻ってください。<br>' +
-        '「エントリー済みの案件」への反映には数分かかる場合があります。' +
+        '<span class="alert">「エントリー済みの案件」への反映には数分かかる場合があります。</span>' +
       '</div>';
     card.appendChild(box);
     box.scrollIntoView({ block: 'center' });

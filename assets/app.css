@@ -538,6 +538,8 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
 }
 .notice.done { border-left-color: var(--ok); background: var(--ok-soft); }
 .notice.notice-go { border-left-color: var(--ok); background: var(--ok-soft); }
+/* 案内文の中で、いちばん注意して読んでほしい一文 */
+.alert { color: var(--red); font-weight: 700; }
 
 .error-box {
   background: var(--err-soft);
