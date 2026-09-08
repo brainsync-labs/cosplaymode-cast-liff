@@ -76,15 +76,18 @@
 
     window.CMC.post('entry.start', { projectId: projectId })
       .then(function (data) {
-        btn.disabled = false;
-        btn.innerHTML = 'この案件に応募する<span class="chev"></span>';
-
         // 自動で開かない。liff.openWindow({external:true}) はAndroidで
         // 無反応になることがあり、「押しても何も起きない」状態になっていた
         // （2026-09-06）。本人がタップするリンクを出せば必ず開く。
+        //
+        // このとき応募ボタンを押せる状態で残すと、同じ色のボタンが2つ並んで
+        // 押し間違える（2026-09-08 の指摘）。役目が終わったので無効化する。
+        btn.disabled = true;
+        btn.textContent = '応募フォームを準備しました';
         showFormLink(projectId, data.formUrl);
       })
       .catch(function (e) {
+        // 失敗したときは押し直せるように戻す
         btn.disabled = false;
         btn.innerHTML = 'この案件に応募する<span class="chev"></span>';
 
@@ -130,13 +133,13 @@
     box.className = 'js-opened';
     box.innerHTML =
       '<div class="actions" style="margin-top:14px">' +
-        '<a class="btn btn-primary" href="' + esc(formUrl) + '" target="_blank" rel="noopener">' +
+        '<a class="btn btn-go" href="' + esc(formUrl) + '" target="_blank" rel="noopener">' +
           '応募フォームを開く<span class="chev"></span>' +
         '</a>' +
       '</div>' +
-      '<div class="notice" style="margin-top:12px">' +
-        '上のボタンから応募フォームが開きます。<br>' +
-        '<strong>送信が終わったら、この画面に戻ってください。</strong><br>' +
+      '<div class="notice notice-go" style="margin-top:12px">' +
+        '<strong>上の緑のボタンから応募フォームが開きます。</strong><br>' +
+        '送信が終わったら、この画面に戻ってください。<br>' +
         '「エントリー済みの案件」への反映には数分かかる場合があります。' +
       '</div>';
     card.appendChild(box);

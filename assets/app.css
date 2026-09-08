@@ -488,6 +488,8 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
 }
 .btn-primary { background: var(--ink); color: var(--surface); }
 .btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--ink); }
+/* 「次にこれを押す」と分かる色。同じ色のボタンが並ぶと押し間違える */
+.btn-go { background: var(--ok); color: #fff; border-color: var(--ok); }
 .btn:active { opacity: 0.78; }
 .btn:disabled { opacity: 0.45; cursor: default; }
 
@@ -535,6 +537,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
   margin: 0 0 14px;
 }
 .notice.done { border-left-color: var(--ok); background: var(--ok-soft); }
+.notice.notice-go { border-left-color: var(--ok); background: var(--ok-soft); }
 
 .error-box {
   background: var(--err-soft);
